@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title> Workspace | Total Collab </title>
+<meta name= "viewport" content= "width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans|Raleway" rel="stylesheet">
+<style>
+  .sidenav {
+    height: 100%;
+    width: 20%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #B0C4DE;
+    overflow-x: hidden;
+  }
+  .sidenav a {
+    color: white;
+    font-size: 30px;
+    text-align: left;
+    font-family: 'PT Sans' sans-serif;
+    text-decoration: none;
+    display: block;
+    padding-top: 100px;
+  }
+  .sidenav c {
+    color: white;
+    font-size: 20px;
+    text-align: left;
+    font-family: 'PT Sans' sans-serif;
+    text-decoration: none;
+    display: block;
+    padding-top: 45px;
+  }
+  h1{
+    font size: 60px;
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    padding-top: 200px;
+    padding-left: 400px;
+  }
+  img{
+    float: left;
+    padding-left: 50px;
+    padding-top: 15px;
+    max-width: 10%;
+    max-height: 10%;
+  }
+  form{
+    width: 300px;
+    padding-top: 300px;
+    padding-left: 300px;
+    text-align: left;
+ }
+ input {
+   font-size: 70px;
+   text-align: left;
+ }
+  </style>
+  </head>
+  <body>
+
+    <div class="sidenav">
+      <img class= "sidenav pic" src="tclogo.png" alt= "TC Logo"/>
+      <a href="#">{{workspace.workspaceName}}</a>
+      <a href="#"> <span style="font-size:25px;">Channels
+        {% for s in subgroups %}
+          <l> <a href="{{ url_for('subgroup', workspaceId = workspace.id, subgroupId = s.id) }}"> {{s.name}}</a></l><br>
+        {% endfor %}
+      </span>
+    </a>
+    </div>
+
+    <div class="content">
+    	<h1> Welcome to your workspace!</h1>
+    </div>
+
+  </body>
+  </html>

@@ -1,0 +1,15 @@
+{% block content %}
+<h1> {{workspace.workspaceName}} </h1>
+<h2> {{subgroup.name}}</h2>
+<ul><div>
+  {% for m in messages %}
+    <l>  {{m.message}}</l><br>
+  {% endfor %}
+</ul></div>
+<h3> Post a Message</h3>
+<form action="{{ url_for('subgroup', workspaceId = workspace.id, subgroupId = subgroup.id) }}" method="post">
+  <input type="text" name="message"><br><br>
+  <input type="submit">
+</form>
+
+{% endblock %}
