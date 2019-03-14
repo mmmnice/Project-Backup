@@ -1,4 +1,27 @@
 {% block content %}
+
+<head>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+    <script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+  </script></head>
+
+
+  <script type=text/javascript>
+    $(function() {
+      $('#submit').bind('click', function() {
+        $.getJSON($SCRIPT_ROOT + '/{{workspace.id}}/{{subgroup.id}}', {
+          message: $('input[name="message"]').val()
+        }, function(data) {
+          $("#message").text(data.message);
+        });
+        return false;
+      });
+    });
+  </script>
+
+
 <h1> {{workspace.workspaceName}} </h1>
 <h2> {{subgroup.name}}</h2>
 <ul><div>
@@ -9,7 +32,7 @@
 <h3> Post a Message</h3>
 <form action="{{ url_for('subgroup', workspaceId = workspace.id, subgroupId = subgroup.id) }}" method="post">
   <input type="text" name="message"><br><br>
-  <input type="submit">
+  <button id="submit"> Submit </button>
 </form>
 
 {% endblock %}

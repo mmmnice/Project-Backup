@@ -1,5 +1,5 @@
 import sys
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
 from app.models import *
@@ -35,7 +35,7 @@ def workspace(workspaceId):
 
 
 #subgroups route and messages
-@app.route("/<int:workspaceId>/<int:subgroupId>", methods=["GET","POST"])
+@app.route("/<int:workspaceId>/<int:subgroupId>", methods=["GET","POST"])#CHANGE ONLY TO GET
 def subgroup(workspaceId, subgroupId):
     workspace = Workspace.query.get(workspaceId)
     subgroup = subGroup.query.get(subgroupId)
@@ -43,5 +43,11 @@ def subgroup(workspaceId, subgroupId):
     if request.method =="POST":
         message = request.form.get("message")
         subgroup.addMessage(message)
-        return redirect(url_for('subgroup', workspaceId=workspaceId, subgroupId = subgroupId))
+        return jsonify({'message':message})
     return render_template('subgroup.html', workspace=workspace, subgroup=subgroup, messages=messages)
+
+@app.route("/messages", methods=["POST"])#FIGURE OUT WAY TO GET TTHIS ROUTE TO SHOW UP IN SUBGROUP ROUTE
+def message():
+    message=request.form.get("message")
+    subgroup.addMessage(message)
+    return jsonify({'message':message})

@@ -57,6 +57,10 @@
  input {
    font-size: 70px;
    text-align: left;
+
+}
+ .nopadding{
+   padding-top: 70px;
  }
   </style>
   </head>
@@ -64,7 +68,7 @@
 
     <div class="sidenav">
       <img class= "sidenav pic" src="tclogo.png" alt= "TC Logo"/>
-      <a href="#">{{workspace.workspaceName}}</a>
+      <a href="#" class="nopadding">{{workspace.workspaceName}}</a>
       <a href="#"> <span style="font-size:25px;">Channels
         {% for s in subgroups %}
           <l> <a href="{{ url_for('subgroup', workspaceId = workspace.id, subgroupId = s.id) }}"> {{s.name}}</a></l><br>
