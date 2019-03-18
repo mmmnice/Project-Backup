@@ -1,9 +1,12 @@
 import sys
 from flask import Flask, render_template, request, url_for, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_socketio import SocketIO, send
 from config import Config
 from app.models import *
 from app import app, db
+
+socketio = SocketIO(app)
 
 #index route
 @app.route('/')
@@ -35,19 +38,18 @@ def workspace(workspaceId):
 
 
 #subgroups route and messages
-@app.route("/<int:workspaceId>/<int:subgroupId>", methods=["GET","POST"])#CHANGE ONLY TO GET
+@app.route("/<int:workspaceId>/<int:subgroupId>", methods=["GET"])#CHANGE ONLY TO GET
 def subgroup(workspaceId, subgroupId):
     workspace = Workspace.query.get(workspaceId)
     subgroup = subGroup.query.get(subgroupId)
     messages = subgroup.messages
-    if request.method =="POST":
-        message = request.form.get("message")
-        subgroup.addMessage(message)
-        return jsonify({'message':message})
     return render_template('subgroup.html', workspace=workspace, subgroup=subgroup, messages=messages)
 
-@app.route("/messages", methods=["POST"])#FIGURE OUT WAY TO GET TTHIS ROUTE TO SHOW UP IN SUBGROUP ROUTE
-def message():
-    message=request.form.get("message")
-    subgroup.addMessage(message)
-    return jsonify({'message':message})
+
+@socketio.on('message')
+def handleMessage(msg):
+    print('message: ' +msg)
+    send(msg, broadcast=True)
+
+if __name__ == '__main__':
+	socketio.run(app)
