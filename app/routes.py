@@ -45,8 +45,19 @@ def subgroup(workspaceId, subgroupId):
     messages = subgroup.messages
     return render_template('subgroup.html', workspace=workspace, subgroup=subgroup, messages=messages)
 
+@app.route("/<int:workspaceId>/<int:subgroupId>/messages", methods=["POST"])#FIGURE OUT WAY TO GET TTHIS ROUTE TO SHOW UP IN SUBGROUP ROUTE
+def message(workspaceId, subgroupId):
+    workspace = Workspace.query.get(workspaceId)
+    subgroup = subGroup.query.get(subgroupId)
+    messages = subgroup.messages
+    subgroup.addMessage(message)
+    return render_template('subgroup.html',workspace=workspace,subgroup=subgroup,messages=messages)
+
 
 @socketio.on('message')
 def handleMessage(msg):
     print('message: ' +msg)
     send(msg, broadcast=True)
+
+if __name__ == '__main__':
+	socketio.run(app)
