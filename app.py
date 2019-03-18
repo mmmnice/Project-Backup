@@ -11,9 +11,8 @@ def main():
         print("Run app using 'flask run' . To create a database use 'python app.py createdb' ")
 
 if __name__=="__main__":
-    with app.app_context():
-        main()
-        
+    socketio.run(app)
+
 
 @app.shell_context_processor
 def make_shell_context():
