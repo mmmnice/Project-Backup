@@ -55,7 +55,7 @@ def message(workspaceId, subgroupId):
 
 
 @socketio.on('message')
-def handleMessage(msg):
+def handleMessage(msg,workspaceId, subgroupId):
     print('message: ' +msg)
     send(msg, broadcast=True)
 
